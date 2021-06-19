@@ -3,7 +3,7 @@
 ## Three away for consumer the state of bloc
 
 ```dart
-  BlocBuilder(context, state) {
+  BlocBuilder<CounterCubit, int>(context, state) {
     return Text(state.toString());
 }
 ```
