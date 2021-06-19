@@ -7,6 +7,6 @@ import 'counter/counter.dart';
 /// {@endtemplate}
 class CounterApp extends MaterialApp {
   /// {@macro counter_app}
-  const CounterApp({Key? key})
-      : super(key: key, home: const CounterPage(), themeMode: ThemeMode.dark);
+  CounterApp({Key? key})
+      : super(key: key, home: CounterView(), themeMode: ThemeMode.dark);
 }

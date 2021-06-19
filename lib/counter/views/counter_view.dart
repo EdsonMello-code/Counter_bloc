@@ -8,15 +8,30 @@ import '../counter.dart';
 /// A [StatelessWidget] which reacts to the provided
 /// [CounterCubit] state and notifies it in response to user input.
 /// {@endtemplate}
-class CounterView extends StatelessWidget {
+class CounterView extends StatefulWidget {
+  @override
+  _CounterViewState createState() => _CounterViewState();
+}
+
+class _CounterViewState extends State<CounterView> {
+  final CounterCubit counterCubit = CounterCubit();
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: const Text('Counter')),
+      backgroundColor: ThemeData.dark().backgroundColor,
+      appBar: AppBar(
+          backgroundColor: ThemeData.dark().appBarTheme.backgroundColor,
+          title: const Text('Counter')),
       body: Center(
-        child: context.select<CounterCubit, dynamic>(
-            (value) => Text(value.state.toString())),
+        child: StreamBuilder(
+          initialData: 0,
+          stream: counterCubit.stream,
+          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+            return Text(snapshot.data.toString());
+          },
+        ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -25,13 +40,13 @@ class CounterView extends StatelessWidget {
           FloatingActionButton(
             key: const Key('counterView_increment_floatingActionButton'),
             child: const Icon(Icons.add),
-            onPressed: () => context.read<CounterCubit>().increment(),
+            onPressed: () => counterCubit.increment(),
           ),
           const SizedBox(height: 8),
           FloatingActionButton(
             key: const Key('counterView_decrement_floatingActionButton'),
             child: const Icon(Icons.remove),
-            onPressed: () => context.read<CounterCubit>().decrement(),
+            onPressed: () => counterCubit.decrement(),
           ),
         ],
       ),
